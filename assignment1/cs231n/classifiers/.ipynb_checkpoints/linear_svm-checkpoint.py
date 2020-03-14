@@ -101,13 +101,14 @@ def svm_loss_vectorized(W, X, y, reg):
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     # Create a mask with values equal 1 where margins > 0, and equal -n at the
     # positions of true labels, where n is number of times margins > 0.
-    # This means when margins > 0, W coressponding to wrong labels are updated
+    # This means at when margins > 0, W coressponding to wrong labels are updated
     # once (same sign with X), and W corresponding to correct labels are updated
     # n times (opposite sign with X).
     mask = (margins > 0)*1
     mask[range(num_train), y] = -np.sum(mask, axis=1)
     
-    dW = X.T @ mask / num_train + 2*reg*W
+    dW = X.T @ mask / num_train
+    dW += 2*reg*W
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     return loss, dW
