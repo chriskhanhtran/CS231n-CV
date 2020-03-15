@@ -40,9 +40,7 @@ class LinearClassifier(object):
         A list containing the value of the loss function at each training iteration.
         """
         num_train, dim = X.shape
-        num_classes = (
-            np.max(y) + 1
-        )  # assume y takes values 0...K-1 where K is number of classes
+        num_classes = (np.max(y) + 1)  # assume y takes values 0...K-1 where K is number of classes
         if self.W is None:
             # lazily initialize W
             self.W = 0.001 * np.random.randn(dim, num_classes)

@@ -9,12 +9,19 @@ from past.builtins import xrange
 
 
 class LinearClassifier(object):
-
     def __init__(self):
         self.W = None
 
-    def train(self, X, y, learning_rate=1e-3, reg=1e-5, num_iters=100,
-              batch_size=200, verbose=False):
+    def train(
+        self,
+        X,
+        y,
+        learning_rate=1e-3,
+        reg=1e-5,
+        num_iters=100,
+        batch_size=200,
+        verbose=False,
+    ):
         """
         Train this linear classifier using stochastic gradient descent.
 
@@ -33,7 +40,7 @@ class LinearClassifier(object):
         A list containing the value of the loss function at each training iteration.
         """
         num_train, dim = X.shape
-        num_classes = np.max(y) + 1 # assume y takes values 0...K-1 where K is number of classes
+        num_classes = (np.max(y) + 1)  # assume y takes values 0...K-1 where K is number of classes
         if self.W is None:
             # lazily initialize W
             self.W = 0.001 * np.random.randn(dim, num_classes)
@@ -56,11 +63,11 @@ class LinearClassifier(object):
             # replacement is faster than sampling without replacement.              #
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-            
+
             batch_idx = np.random.choice(np.arange(num_train), batch_size)
             X_batch = X[batch_idx]
             y_batch = y[batch_idx]
-            
+
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
             # evaluate loss and gradient
@@ -79,7 +86,7 @@ class LinearClassifier(object):
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
             if verbose and it % 100 == 0:
-                print('iteration %d / %d: loss %f' % (it, num_iters, loss))
+                print("iteration %d / %d: loss %f" % (it, num_iters, loss))
 
         return loss_history
 

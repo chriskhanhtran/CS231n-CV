@@ -1,9 +1,9 @@
 from __future__ import print_function
 
-from builtins import range
-from builtins import object
-import numpy as np
+from builtins import object, range
+
 import matplotlib.pyplot as plt
+import numpy as np
 from past.builtins import xrange
 
 
@@ -103,9 +103,7 @@ class TwoLayerNet(object):
         scores = np.exp(scores) / np.sum(np.exp(scores), axis=1).reshape(-1, 1)
 
         # Compute loss
-        loss = -np.sum(np.log(scores[range(N), y])) / N + reg * (
-            np.sum(W1 ** 2) + np.sum(W2 ** 2)
-        )
+        loss = -np.sum(np.log(scores[range(N), y])) / N + reg*(np.sum(W1**2) + np.sum(W2**2))
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -118,18 +116,18 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         C = W2.shape[1]
-        
+
         # Gradients of layer 2
         mask_y = np.eye(C)[y]
-        grads['W2'] = H.T @ (scores - mask_y) / N + 2 * reg * W2
+        grads['W2'] = H.T @ (scores - mask_y) / N + 2*reg*W2
         grads['b2'] = np.sum((scores - mask_y), axis=0) / N
-        
+
         # Gradients of hidden layer
-        mask_H = (H > 0) * 1
-        dH = ((scores - mask_y) @ W2.T) / N * mask_H
-        
+        mask_H = (H > 0)*1
+        dH = ((scores - mask_y) @ W2.T)*mask_H / N 
+
         # Gradients of layer 1
-        grads['W1'] = X.T @ dH + 2 * reg * W1
+        grads['W1'] = X.T @ dH + 2*reg*W1
         grads['b1'] = np.sum(dH, axis=0)
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
