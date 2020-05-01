@@ -5,3 +5,4 @@
 
 # gitignore the built release.
 assignment3/*
+.vscode/
