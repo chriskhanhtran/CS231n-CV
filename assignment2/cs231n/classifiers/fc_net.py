@@ -284,8 +284,8 @@ class FullyConnectedNet(object):
         cache_fc = [None] * self.num_layers
         cache_relu = [None] * (self.num_layers - 1)
         cache_bn = [None] * (self.num_layers - 1)
-        a = None
-        a_relu = None
+        cache_dropout = [None] * (self.num_layers - 1)
+        a, a_relu = None, None
 
         # Forward pass
         for i in range(self.num_layers):
@@ -299,20 +299,17 @@ class FullyConnectedNet(object):
             if i < self.num_layers - 1:
                 if self.normalization == "batchnorm":
                     a, cache_bn[i] = batchnorm_forward(
-                        a,
-                        self.params["gamma" + str(i + 1)],
-                        self.params["beta" + str(i + 1)],
-                        self.bn_params[i],
+                        a, self.params["gamma" + str(i + 1)], self.params["beta" + str(i + 1)], self.bn_params[i],
                     )
                 elif self.normalization == "layernorm":
                     a, cache_bn[i] = layernorm_forward(
-                        a,
-                        self.params["gamma" + str(i + 1)],
-                        self.params["beta" + str(i + 1)],
-                        self.bn_params[i],
+                        a, self.params["gamma" + str(i + 1)], self.params["beta" + str(i + 1)], self.bn_params[i],
                     )
 
                 a_relu, cache_relu[i] = relu_forward(a)
+
+                if self.use_dropout:
+                    a_relu, cache_dropout[i] = dropout_forward(a_relu, self.dropout_param)
 
         # Scores are activations of the last layer
         scores = a
@@ -333,8 +330,8 @@ class FullyConnectedNet(object):
         # data loss using softmax, and make sure that grads[k] holds the gradients #
         # for self.params[k]. Don't forget to add L2 regularization!               #
         #                                                                          #
-        # When using batch/layer normalization, you don't need to regularize the scale   #
-        # and shift parameters.                                                    #
+        # When using batch/layer normalization, you don't need to regularize the   #
+        # scale and shift parameters.                                              #
         #                                                                          #
         # NOTE: To ensure that your implementation matches ours and you pass the   #
         # automated tests, make sure that your L2 regularization includes a factor #
@@ -345,11 +342,9 @@ class FullyConnectedNet(object):
 
         # Compute Loss
         loss, d_scores = softmax_loss(scores, y)
-        loss += (
-            0.5
-            * self.reg
-            * (np.sum([np.sum(self.params["W" + str(i + 1)] ** 2) for i in range(self.num_layers)]))
-        )  # Add regularization
+
+        # Add regularization to loss
+        loss += 0.5 * self.reg * (np.sum([np.sum(self.params["W" + str(i + 1)] ** 2) for i in range(self.num_layers)]))
 
         # Backward pass
         for i in list(range(0, self.num_layers))[::-1]:
@@ -357,21 +352,20 @@ class FullyConnectedNet(object):
             dout = d_scores if i == (self.num_layers - 1) else d_a
 
             # Start from the last FC layer because there is no ReLU or Batch Norm here
-            (d_a_relu, grads["W" + str(i + 1)], grads["b" + str(i + 1)]) = affine_backward(dout, cache_fc[i])
+            (d_a_relu, grads["W" + str(i + 1)], grads["b" + str(i + 1)],) = affine_backward(dout, cache_fc[i])
             grads["W" + str(i + 1)] += self.reg * self.params["W" + str(i + 1)]
 
             # ReLU and Batch Norm backward on the previous layer
             if i > 0:
                 d_a = relu_backward(d_a_relu, cache_relu[i - 1])
 
+                if self.use_dropout:
+                    d_a = dropout_backward(d_a, cache_dropout[i - 1])
+
                 if self.normalization == "batchnorm":
-                    d_a, grads["gamma" + str(i)], grads["beta" + str(i)] = batchnorm_backward(
-                        d_a, cache_bn[i - 1]
-                    )
+                    (d_a, grads["gamma" + str(i)], grads["beta" + str(i)],) = batchnorm_backward(d_a, cache_bn[i - 1])
                 elif self.normalization == "layernorm":
-                    d_a, grads["gamma" + str(i)], grads["beta" + str(i)] = layernorm_backward(
-                        d_a, cache_bn[i - 1]
-                    )
+                    (d_a, grads["gamma" + str(i)], grads["beta" + str(i)],) = layernorm_backward(d_a, cache_bn[i - 1])
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################

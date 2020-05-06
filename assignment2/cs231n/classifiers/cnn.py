@@ -17,9 +17,17 @@ class ThreeLayerConvNet(object):
     channels.
     """
 
-    def __init__(self, input_dim=(3, 32, 32), num_filters=32, filter_size=7,
-                 hidden_dim=100, num_classes=10, weight_scale=1e-3, reg=0.0,
-                 dtype=np.float32):
+    def __init__(
+        self,
+        input_dim=(3, 32, 32),
+        num_filters=32,
+        filter_size=7,
+        hidden_dim=100,
+        num_classes=10,
+        weight_scale=1e-3,
+        reg=0.0,
+        dtype=np.float32,
+    ):
         """
         Initialize a new network.
 
@@ -51,11 +59,17 @@ class ThreeLayerConvNet(object):
         # IMPORTANT: For this assignment, you can assume that the padding          #
         # and stride of the first convolutional layer are chosen so that           #
         # **the width and height of the input are preserved**. Take a look at      #
-        # the start of the loss() function to see how that happens.                #                           
+        # the start of the loss() function to see how that happens.                #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        C, W, H = input_dim
+        self.params["W1"] = np.random.randn(num_filters, C, filter_size, filter_size) * weight_scale
+        self.params["b1"] = np.zeros((num_filters,))
+        self.params["W2"] = np.random.randn(num_filters * W * W // 4, hidden_dim) * weight_scale
+        self.params["b2"] = np.zeros((hidden_dim,))
+        self.params["W3"] = np.random.randn(hidden_dim, num_classes) * weight_scale
+        self.params["b3"] = np.zeros((num_classes,))
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -65,24 +79,23 @@ class ThreeLayerConvNet(object):
         for k, v in self.params.items():
             self.params[k] = v.astype(dtype)
 
-
     def loss(self, X, y=None):
         """
         Evaluate loss and gradient for the three-layer convolutional network.
 
         Input / output: Same API as TwoLayerNet in fc_net.py.
         """
-        W1, b1 = self.params['W1'], self.params['b1']
-        W2, b2 = self.params['W2'], self.params['b2']
-        W3, b3 = self.params['W3'], self.params['b3']
+        W1, b1 = self.params["W1"], self.params["b1"]
+        W2, b2 = self.params["W2"], self.params["b2"]
+        W3, b3 = self.params["W3"], self.params["b3"]
 
         # pass conv_param to the forward pass for the convolutional layer
         # Padding and stride chosen to preserve the input spatial size
         filter_size = W1.shape[2]
-        conv_param = {'stride': 1, 'pad': (filter_size - 1) // 2}
+        conv_param = {"stride": 1, "pad": (filter_size - 1) // 2}
 
         # pass pool_param to the forward pass for the max-pooling layer
-        pool_param = {'pool_height': 2, 'pool_width': 2, 'stride': 2}
+        pool_param = {"pool_height": 2, "pool_width": 2, "stride": 2}
 
         scores = None
         ############################################################################
@@ -95,7 +108,9 @@ class ThreeLayerConvNet(object):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        x1, cache1 = conv_relu_pool_forward(X, W1, b1, conv_param, pool_param)
+        x2, cache2 = affine_relu_forward(x1, W2, b2)
+        scores, cache3 = affine_forward(x2, W3, b3)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -118,8 +133,19 @@ class ThreeLayerConvNet(object):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        loss, dscores = softmax_loss(scores, y)
+        loss += 0.5 * self.reg * (np.sum(W1 ** 2) + np.sum(W2 ** 2) + np.sum(W3 ** 2))
 
+        dx2, dW3, db3 = affine_backward(dscores, cache3)
+        dW3 += self.reg * W3
+        dx1, dW2, db2 = affine_relu_backward(dx2, cache2)
+        dW2 += self.reg * W2
+        dx, dW1, db1 = conv_relu_pool_backward(dx1, cache1)
+        dW1 += self.reg * W1
+
+        grads["W1"], grads["b1"] = dW1, db1
+        grads["W2"], grads["b2"] = dW2, db2
+        grads["W3"], grads["b3"] = dW3, db3
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
