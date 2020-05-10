@@ -17,7 +17,7 @@ This repository is my implementation of assignments and projects for the 2019 ve
 ✅ Q5: Higher Level Representations: Image Features: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/features.ipynb)
 
 ## [Assignment 2](https://cs231n.github.io/assignments2019/assignment2/)
-✅ Q1: Fully-connected Neural Network: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment2/FullyConnectedNets.ipynb)
+✅ Q1: Fully-connected Neural Network: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment2/FullyConnectedNets.ipynb), [`layers.py`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment2/cs231n/layers.py)
 
 ✅ Q2: Batch Normalization
 
