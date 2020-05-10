@@ -10,21 +10,18 @@ This repository is my implementation of assignments and projects for the 2019 ve
 - Lecture Videos: [YouTube](https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv) (2017)
 
 ## [Assignment 1](https://cs231n.github.io/assignments2019/assignment1/)
-- ✅ [Q1: k-Nearest Neighbor classifier:](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/knn.ipynb) [`k_nearest_neighbor.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/cs231n/classifiers/k_nearest_neighbor.py)
-- ✅ Q2: Training a Support Vector Machine: [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/svm.ipynb), [`linear_svm.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/cs231n/classifiers/linear_svm.py), [`linear_classifier.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/cs231n/classifiers/linear_classifier.py)
-- ✅ Q3: Implement a Softmax classifier
-    - [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/softmax.ipynb), [`softmax.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/cs231n/classifiers/softmax.py)
-- ✅ Q4: Two-Layer Neural Network
-    - [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/two_layer_net.ipynb), [`neural_net.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/cs231n/classifiers/neural_net.py)
-- ✅ Q5: Higher Level Representations: Image Features
-    - [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/features.ipynb)
+- ✅ [Q1: k-Nearest Neighbor classifier](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/knn.ipynb)
+- ✅ [Q2: Training a Support Vector Machine](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/svm.ipynb)
+- ✅ [Q3: Implement a Softmax classifier](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/softmax.ipynb)
+- ✅ [Q4: Two-Layer Neural Network](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/two_layer_net.ipynb)
+- ✅ [Q5: Higher Level Representations: Image Features](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment1/features.ipynb)
 
 ## [Assignment 2](https://cs231n.github.io/assignments2019/assignment2/)
-- ✅ Q1: Fully-connected Neural Network: [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/FullyConnectedNets.ipynb), [`layers.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/cs231n/layers.py), [`fc_net.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/cs231n/classifiers/fc_net.py)
-- ✅ Q2: Batch Normalization: [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/BatchNormalization.ipynb)
-- ✅ Q3: Dropout: [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/Dropout.ipynb)
-- ✅ Q4: Convolutional Networks: [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/ConvolutionalNetworks.ipynb), [`cnn.py`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/cs231n/classifiers/cnn.py)
-- ✅ Q5: PyTorch on CIFAR-10: [`Notebook`](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/PyTorch.ipynb)
+- ✅ [Q1: Fully-connected Neural Network](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/FullyConnectedNets.ipynb)
+- ✅ [Q2: Batch Normalization](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/BatchNormalization.ipynb)
+- ✅ [Q3: Dropout](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/Dropout.ipynb)
+- ✅ [Q4: Convolutional Networks](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/ConvolutionalNetworks.ipynb)
+- ✅ [Q5: PyTorch on CIFAR-10](https://github.com/chriskhanhtran/CS231n-CV-2019/blob/master/assignment2/PyTorch.ipynb)
 
 ## [Assignment 3](https://cs231n.github.io/assignments2019/assignment3/)
 - ⏳ Q1: Image Captioning with Vanilla RNNs
