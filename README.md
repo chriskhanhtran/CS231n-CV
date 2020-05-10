@@ -1,5 +1,6 @@
 # CS231n: Convolutional Neural Networks for Visual Recognition
 **Stanford / Spring 2019**
+
 ![](http://web.stanford.edu/class/cs224n/images/stanfordlogo.jpg)
 
 This repository is my implementation of assignments and projects for the 2019 version of the course CS231n: Convolutional Neural Networks for Visual Recognition by Stanford University.
