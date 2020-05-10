@@ -6,10 +6,15 @@ This repository is my implementation of assignments and projects for the 2019 ve
 - Lecture Videos: [YouTube](https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv) (2017)
 
 ## [Assignment 1](https://cs231n.github.io/assignments2019/assignment1/)
-- k-Nearest Neighbor classifier: [knn.ipynb](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/knn.ipynb), [k_nearest_neighbor.py](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/k_nearest_neighbor.py)
-- Training a Support Vector Machine: [svm.ipynb](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/svm.ipynb), [linear_svm.py](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/linear_svm.py), [linear_classifier.py](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/linear_classifier.py)
-- Implement a Softmax classifier: [softmax.ipynb](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/softmax.ipynb), [softmax.py](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/softmax.py)
-- Two-Layer Neural Network: [two_layer_net.ipynb](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/two_layer_net.ipynb), [neural_net.py](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/neural_net.py)
-- Higher Level Representations: Image Features: [features.ipynb](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/features.ipynb)
+- ✅ Q1: k-Nearest Neighbor classifier: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/knn.ipynb), [`k_nearest_neighbor.py`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/k_nearest_neighbor.py)
+- ✅ Q2: Training a Support Vector Machine: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/svm.ipynb), [`linear_svm.py`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/linear_svm.py), [`linear_classifier.py`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/linear_classifier.py)
+- ✅ Q3: Implement a Softmax classifier: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/softmax.ipynb), [`softmax.py`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/softmax.py)
+- ✅ Q4: Two-Layer Neural Network: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/two_layer_net.ipynb), [`neural_net.py`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/cs231n/classifiers/neural_net.py)
+- ✅ Q5: Higher Level Representations: Image Features: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment1/features.ipynb)
 
-## Assignment 2
+## [Assignment 2](https://cs231n.github.io/assignments2019/assignment2/)
+- ✅ Q1: Fully-connected Neural Network: [`Notebook`](https://github.com/chriskhanhtran/cs231n-computer-vision/blob/master/assignment2/FullyConnectedNets.ipynb)
+- ✅ Q2: Batch Normalization
+- ✅ Q3: Dropout
+- ✅ Q4: Convolutional Networks
+- ✅ Q5: PyTorch on CIFAR-10
