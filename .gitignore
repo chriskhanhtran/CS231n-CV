@@ -3,7 +3,7 @@
 .env/*
 *.ipynb_checkpoints/*
 *-checkpoint.ipynb
+*.h5
 
 # gitignore the built release.
-assignment3/*
 .vscode/
