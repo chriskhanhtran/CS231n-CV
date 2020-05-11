@@ -37,7 +37,7 @@ class TwoLayerNet(object):
         - reg: Scalar giving L2 regularization strength.
         """
         self.params = {}
-        self.reg = reg 
+        self.reg = reg
 
         ############################################################################
         # TODO: Initialize the weights and biases of the two-layer net. Weights    #
