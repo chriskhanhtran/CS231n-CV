@@ -71,7 +71,7 @@ def rnn_step_backward(dnext_h, cache):
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     tanh, x, prev_h, Wx, Wh = cache
-    dtanh = dnext_h * (1 - tanh**2)
+    dtanh = dnext_h * (1 - tanh ** 2)
     dx = dtanh @ Wx.T
     dprev_h = dtanh @ Wh.T
     dWx = x.T @ dtanh
@@ -121,7 +121,7 @@ def rnn_forward(x, h0, Wx, Wh, b):
         h[:, t, :], cache_t = rnn_step_forward(x[:, t, :], prev_h, Wx, Wh, b)
         cache.append(cache_t)
         prev_h = h[:, t, :]
-    
+
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -155,8 +155,8 @@ def rnn_backward(dh, cache):
     # defined above. You can use a for loop to help compute the backward pass.   #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    _, x_0, _, Wx, Wh = cache[0]
-    D = x_0.shape[1]
+    x0, _, Wx, Wh = cache[0][1:5]
+    D = x0.shape[1]
     N, T, H = dh.shape
 
     dx = np.zeros((N, T, D))
@@ -171,7 +171,7 @@ def rnn_backward(dh, cache):
         dWh += dWh_t
         db += db_t
         dnext_h = dprev_h + dh[:, t - 1, :]
-    
+
     dh0 = dprev_h
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -241,7 +241,7 @@ def word_embedding_backward(dout, cache):
     x, W = cache
     dW = np.zeros_like(W)
     np.add.at(dW, x, dout)
-    
+
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -253,8 +253,8 @@ def sigmoid(x):
     """
     A numerically stable version of the logistic sigmoid function.
     """
-    pos_mask = (x >= 0)
-    neg_mask = (x < 0)
+    pos_mask = x >= 0
+    neg_mask = x < 0
     z = np.zeros_like(x)
     z[pos_mask] = np.exp(-x[pos_mask])
     z[neg_mask] = np.exp(x[neg_mask])
@@ -292,7 +292,16 @@ def lstm_step_forward(x, prev_h, prev_c, Wx, Wh, b):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    N, H = prev_h.shape
+    a = x @ Wx + prev_h @ Wh + b
+    i = sigmoid(a[:, :H])
+    f = sigmoid(a[:, H : 2 * H])
+    o = sigmoid(a[:, 2 * H : 3 * H])
+    g = np.tanh(a[:, 3 * H :])
+    next_c = f * prev_c + g * i
+    next_h = o * np.tanh(next_c)
+
+    cache = (x, prev_h, Wx, Wh, i, f, o, g, prev_c, next_c)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -327,8 +336,26 @@ def lstm_step_backward(dnext_h, dnext_c, cache):
     # the output value from the nonlinearity.                                   #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    x, prev_h, Wx, Wh, i, f, o, g, prev_c, next_c = cache
+    dnext_c = dnext_c + dnext_h * o * (1 - np.tanh(next_c) ** 2)
+    dprev_c = dnext_c * f
 
-    pass
+    di = dnext_c * g
+    df = dnext_c * prev_c
+    do = dnext_h * np.tanh(next_c)
+    dg = dnext_c * i
+
+    dai = di * i * (1 - i)
+    daf = df * f * (1 - f)
+    dao = do * o * (1 - o)
+    dag = dg * (1 - g ** 2)
+    da = np.concatenate([dai, daf, dao, dag], axis=1)
+
+    dx = da @ Wx.T
+    dWx = x.T @ da
+    dprev_h = da @ Wh.T
+    dWh = prev_h.T @ da
+    db = np.sum(da, axis=0)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -367,7 +394,17 @@ def lstm_forward(x, h0, Wx, Wh, b):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    N, T, D = x.shape
+    H = h0.shape[1]
+    h = np.zeros((N, T, H))
+    cache = []
+
+    prev_h, prev_c = h0, np.zeros_like(h0)
+    for t in range(T):
+        h[:, t, :], next_c, cache_t = lstm_step_forward(x[:, t, :], prev_h, prev_c, Wx, Wh, b)
+        cache.append(cache_t)
+        prev_h = h[:, t, :]
+        prev_c = next_c
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -399,7 +436,26 @@ def lstm_backward(dh, cache):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    x0, _, Wx, Wh = cache[0][0:4]
+    D = x0.shape[1]
+    N, T, H = dh.shape
+
+    dx = np.zeros((N, T, D))
+    dWx = np.zeros_like(Wx)
+    dWh = np.zeros_like(Wh)
+    db = np.zeros((4 * H,))
+
+    dnext_h = dh[:, -1, :]
+    dnext_c = np.zeros_like(dnext_h)
+    for t in list(range(T))[::-1]:
+        dx[:, t, :], dprev_h, dprev_c, dWx_t, dWh_t, db_t = lstm_step_backward(dnext_h, dnext_c, cache[t])
+        dWx += dWx_t
+        dWh += dWh_t
+        db += db_t
+        dnext_h = dprev_h + dh[:, t - 1, :]
+        dnext_c = dprev_c
+
+    dh0 = dprev_h
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -497,7 +553,8 @@ def temporal_softmax_loss(x, y, mask, verbose=False):
     dx_flat /= N
     dx_flat *= mask_flat[:, None]
 
-    if verbose: print('dx_flat: ', dx_flat.shape)
+    if verbose:
+        print("dx_flat: ", dx_flat.shape)
 
     dx = dx_flat.reshape(N, T, V)
 
