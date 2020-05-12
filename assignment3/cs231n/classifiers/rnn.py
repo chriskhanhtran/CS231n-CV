@@ -236,7 +236,7 @@ class CaptioningRNN(object):
             next_h, _ = rnn_step_forward(x, prev_h, Wx, Wh, b)
             scores = next_h @ W_vocab + b_vocab
             captions[:, t] = np.argmax(scores, axis=1)
-            x, _ = W_embed[captions[:, t]]
+            x = W_embed[captions[:, t]]
             prev_h = next_h
         
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
