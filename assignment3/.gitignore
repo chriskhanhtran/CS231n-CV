@@ -5,3 +5,5 @@
 */__pycache__/*
 */datasets/coco_captioning/*
 *.h5
+*.gz
+*-ubyte
